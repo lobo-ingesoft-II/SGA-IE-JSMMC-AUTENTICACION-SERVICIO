@@ -1,4 +1,5 @@
 import mysql.connector
+from app.backend.config import settings # Traer el valor de configuración de la URI de MongoDB
 
 # Configuración de la conexión
 config = {
