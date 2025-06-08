@@ -1,0 +1,6 @@
+mysql-connector-python
+fastapi 
+uvicorn 
+# "fastapi[standard]"
+requests 
+pydantic-settings 
