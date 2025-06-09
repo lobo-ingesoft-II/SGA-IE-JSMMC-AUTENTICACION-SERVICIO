@@ -14,5 +14,8 @@ class Usuario(BaseModel):
     fechaCreacion: str = Field(..., alias="fecha_creacion")
     fechaModificacion: str = Field(..., alias="fecha_modificacion")
 
+    class Config:
+        validate_by_name = True
+
 class Usuario_id(Usuario):
     id : int = Field(..., alias="id_estudiante")

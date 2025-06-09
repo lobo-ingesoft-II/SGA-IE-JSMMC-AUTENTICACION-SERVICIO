@@ -1,14 +1,14 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.backend.session import connection
-# from app.routers import pdf_pre_registro_route  # Importar las rutas del módulo pdf_pre_registro
+from app.backend.database import try_BD
+from app.routers import autentication_routes  # Importar las rutas del archivo de autenticacion 
 
 
 # Instancia de FastAPI
 app = FastAPI()
 
 # Importar las rutas
-# app.include_router(pdf_pre_registro_route.router)
+app.include_router(autentication_routes.router)
 
 # Configuración de CORS
 app.add_middleware(

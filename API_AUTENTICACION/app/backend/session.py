@@ -1,4 +1,3 @@
-import mysql.connector
 from app.backend.config import settings # Traer el valor de configuración de la URI de MongoDB
 from sqlalchemy import create_engine, text
 from sqlalchemy.ext.declarative import declarative_base
@@ -23,6 +22,7 @@ SQLALCHEMY_DATABASE_URL = (
 )
 
 
+
 # Crear engine
 engine = create_engine(SQLALCHEMY_DATABASE_URL) # Gestiona las conexion en la app
 
@@ -32,13 +32,4 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine) # Cr
 # Base declarativa para modelos
 Base = declarative_base()  # Es la clase base de la que SE DEBEN HEREDAR todos los modelos o tablas 
 
-
-# Verificar la conexion 
-try:
-    with engine.connect() as connection:
-        result = connection.execute(text("SELECT VERSION()"))
-        version = result.fetchone()
-        print(f"Conectado a MySQL versión: {version[0]}")
-except Exception as e:
-    print("Error al conectar a la base de datos:", e)
 
