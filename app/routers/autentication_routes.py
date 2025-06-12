@@ -26,6 +26,11 @@ from app.models.usuario_model import UsuarioModel
 
 router = APIRouter() 
 
+
+@router.get("/")
+def root():
+    return {"message": "API de Autenticacion y Roles"}
+
 # POST /register  => Registro de nuevos usuarios    
 @router.post("/register")
 def post_registerUser(document:Usuario, db: Session = Depends(get_db)):

@@ -19,3 +19,8 @@ class Usuario(BaseModel):
 
 class Usuario_id(Usuario):
     id : int = Field(..., alias="id_estudiante")
+
+
+class UsuarioLogin(BaseModel):
+    email: str
+    contrasena: str
