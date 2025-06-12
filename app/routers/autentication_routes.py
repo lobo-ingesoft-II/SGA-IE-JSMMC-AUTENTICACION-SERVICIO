@@ -21,7 +21,7 @@ from app.backend.database import get_db  # Importar la base de datos desde el ar
 
 # Importacion de esquemas de validacion y modelos para añadir registros a la BD 
 from app.schemas.usuario_schema import Usuario
-from app.models.usuario_model import UsuarioModel
+from app.models.usuario_model import Usuario as UsuarioModel
 
 
 router = APIRouter() 
@@ -42,7 +42,7 @@ def post_registerUser(document:Usuario, db: Session = Depends(get_db)):
 
         # Convertir el modelo a un diccionario
         document_dict = document.model_dump(by_alias=True) # Convertir el modelo Pydantic a un DIC
-        nuevo_usuario = UsuarioModel(**document_dict) # Crear un nuevo usuario con el modelo 
+        nuevo_usuario = Usuario(**document_dict) # Crear un nuevo usuario con el modelo 
     
         # El id se coloca automaticamente 
         db.add(nuevo_usuario)
@@ -62,3 +62,11 @@ def post_registerUser(document:Usuario, db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=f"Error al registrar usuario: {str(e)}")
 
 
+@router.get("/getUsers")
+def getUsers(db: Session = Depends(get_db)):
+
+    try: 
+        usuarios = db.query(UsuarioModel).all()
+        return usuarios
+    except SQLAlchemyError as e:
+        raise HTTPException(status_code=500, detail=f"Error al obtener usuarios: {str(e)}")

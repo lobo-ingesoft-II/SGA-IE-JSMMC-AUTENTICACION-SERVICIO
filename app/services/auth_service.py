@@ -1,7 +1,7 @@
 from fastapi import Depends, HTTPException, status
 from jose import JWTError, jwt
 # Importa componentes del módulo de autenticación local de la aplicación
-from app.auth import oauth2_scheme, SECRET_KEY, ALGORITHM
+from app.services.auth_utils import oauth2_scheme, SECRET_KEY, ALGORITHM
 import os
 
 

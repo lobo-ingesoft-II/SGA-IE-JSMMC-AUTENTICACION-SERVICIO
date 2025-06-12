@@ -15,16 +15,16 @@ config = {
     'port': settings.port_mysql
 }
 
+print(config)
 # Construir la URL de conexión
-SQLALCHEMY_DATABASE_URL = (
-    f"mysql+pymysql://{config['user']}:{config['password']}@"
-    f"{config['host']}:{config['port']}/{config['database']}"
-)
+
 
 
 
 # Crear engine
-engine = create_engine(SQLALCHEMY_DATABASE_URL) # Gestiona las conexion en la app
+# engine = create_engine(settings.sqlalchemy_database_uri) # Gestiona las conexion en la app
+DATABASE_URL="mysql+pymysql://root:1234@127.0.0.1:3306/bcj9asygzv10rjmwhyss"
+engine = create_engine(DATABASE_URL) # Gestiona las conexion en la app
 
 # Crear sesión
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine) # Crea una sección personalizada cada vez que la base de datos necesita realziar una operacion de CONSULTA, INSERTAR, ACTUALIZAR

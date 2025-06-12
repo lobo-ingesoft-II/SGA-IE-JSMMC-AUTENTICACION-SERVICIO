@@ -15,3 +15,8 @@ class Estudiante(Base):
     
     usuario = relationship("Usuario", back_populates="estudiante")
     acudiente = relationship("Acudiente", back_populates="estudiantes")
+
+
+# Al final del archivo se importa los otros modelos para los mapeos 
+from app.models.acudiente_model import Acudiente
+from app.models.usuario_model import Usuario

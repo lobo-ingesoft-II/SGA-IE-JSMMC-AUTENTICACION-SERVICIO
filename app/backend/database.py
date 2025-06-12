@@ -21,6 +21,6 @@ def try_BD():
         version = result.fetchone()
         print(f"Conexión exitosa. Versión de MySQL: {version[0]}")
     except SQLAlchemyError as e:
-        print("Error al conectar a la base de datos:", e)
+        print("SUPEERRRRRR  Error al conectar a la base de datos:", e)
     finally:
         db.close()  # Muy importante cerrar la conexión

@@ -9,3 +9,7 @@ class Administrador(Base):
     id_usuario = Column(Integer, ForeignKey("usuarios.id_usuario"), nullable=False, unique=True)
     
     usuario = relationship("Usuario", back_populates="administrador")
+
+
+# Al final del archivo se importa los otros modelos para los mapeos 
+from app.models.usuario_model import Usuario
