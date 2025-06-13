@@ -8,6 +8,9 @@ class Token(BaseModel):
     access_token: str
     token_type: str
     rol: str  # Añadimos el rol al token
+    correo: str #
+    id: int
+    
 
 class TokenData(BaseModel):
     email: str
