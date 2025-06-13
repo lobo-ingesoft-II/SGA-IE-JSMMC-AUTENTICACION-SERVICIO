@@ -6,7 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 
 
-# Configuración de la conexión
+#Configuración de la conexión
 config = {
     'host': settings.host_mysql,
     'user': settings.user_mysql,
@@ -23,6 +23,8 @@ print(config)
 
 # Crear engine
 # engine = create_engine(settings.sqlalchemy_database_uri) # Gestiona las conexion en la app
+
+# AQUI PONER SU BD LOCAL 
 DATABASE_URL="mysql+pymysql://root:1234@127.0.0.1:3306/bcj9asygzv10rjmwhyss"
 engine = create_engine(DATABASE_URL) # Gestiona las conexion en la app
 
