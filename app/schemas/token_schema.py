@@ -4,8 +4,10 @@ class Token(BaseModel):
     access_token: str
     token_type: str
     rol: str
-    correo: str  # <-- Añadido
-    id: int      # <-- Añadido
+    correo: str
+    id: int
+    nombres: str
+    apellidos: str
 
 class TokenData(BaseModel):
     email: str
