@@ -10,6 +10,8 @@ class Token(BaseModel):
     rol: str  # Añadimos el rol al token
     correo: str #
     id: int
+    nombres: str
+    apellidos: str
     
 
 class TokenData(BaseModel):

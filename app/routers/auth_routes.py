@@ -36,5 +36,7 @@ def login(usuario: UsuarioLogin, db: Session = Depends(get_db)):
         "token_type": "bearer",
         "rol": db_usuario.rol, # Enviamos el rol para redirección en frontend
         "correo": db_usuario.email,
-        "id": db_usuario.id_usuario
+        "id": db_usuario.id_usuario,
+        "nombres": db_usuario.nombres,
+        "apellidos": db_usuario.apellidos
     }
