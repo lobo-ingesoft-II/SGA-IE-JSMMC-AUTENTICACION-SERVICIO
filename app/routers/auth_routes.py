@@ -23,11 +23,18 @@ def login(usuario: UsuarioLogin, db: Session = Depends(get_db)):
 
     # 3. Generar token JWT con el rol
     token = create_access_token(
-        data={"sub": db_usuario.email, "rol": db_usuario.rol}
+    data={
+        "sub": str(db_usuario.id_usuario),  # ✅ ahora es el ID como string
+        "name": db_usuario.nombres,         # opcional, útil para mostrar en el panel
+        "role": db_usuario.rol
+        }
     )
+
 
     return {
         "access_token": token,
         "token_type": "bearer",
-        "rol": db_usuario.rol  # Enviamos el rol para redirección en frontend
+        "rol": db_usuario.rol, # Enviamos el rol para redirección en frontend
+        "correo": db_usuario.email,
+        "id": db_usuario.id_usuario
     }

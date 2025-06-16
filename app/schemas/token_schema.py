@@ -1,9 +1,11 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 
 class Token(BaseModel):
     access_token: str
     token_type: str
-    rol: str  # Añadimos el rol al token
+    rol: str
+    correo: str  # <-- Añadido
+    id: int      # <-- Añadido
 
 class TokenData(BaseModel):
     email: str
