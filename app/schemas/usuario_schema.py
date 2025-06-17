@@ -24,3 +24,4 @@ class Usuario_id(Usuario):
 class UsuarioLogin(BaseModel):
     email: str
     contrasena: str
+    #rol: str

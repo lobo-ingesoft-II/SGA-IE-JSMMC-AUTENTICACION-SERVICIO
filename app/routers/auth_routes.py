@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 # Importacion de Codigo 
 from app.backend.database import get_db
 from app.models.usuario_model import Usuario
+from app.models.profesor_model import Profesor
 from app.schemas.usuario_schema import UsuarioLogin
 from app.schemas.token_schema  import Token
 from app.services.auth_utils import verify_password, create_access_token
@@ -22,12 +23,34 @@ def login(usuario: UsuarioLogin, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Contraseña incorrecta")
 
     # 3. Generar token JWT con el rol
+    # 3. Generar token JWT con el rol
     token = create_access_token(
-        data={"sub": db_usuario.email, "rol": db_usuario.rol}
+    data={
+        "sub": str(db_usuario.id_usuario),  # ✅ ahora es el ID como string
+        "name": db_usuario.nombres,         # opcional, útil para mostrar en el panel
+        "role": db_usuario.rol
+        }
     )
+
+    # 4. Obtener ID específico si es profesor
+    id_profesor = None
+    print(db_usuario.rol)
+    print("HOLAAAA")
+    
+    db_profe = db.query(Profesor).filter(Profesor.id_profesor == db_usuario.id_usuario).first()
+    print(db_profe)
+
+    if db_usuario.rol == "profesor" and db_usuario.profesor:
+        # print("Es profesor")
+        id_profesor = db_usuario.profesor.id_profesor
 
     return {
         "access_token": token,
         "token_type": "bearer",
-        "rol": db_usuario.rol  # Enviamos el rol para redirección en frontend
+        "rol": db_usuario.rol,
+        "correo": db_usuario.email,
+        "id": db_usuario.id_usuario,
+        "nombres": db_usuario.nombres,
+        "apellidos": db_usuario.apellidos,
+        "id_profesor": id_profesor  # ← Esto lo agregamos
     }
