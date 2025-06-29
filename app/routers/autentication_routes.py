@@ -20,9 +20,10 @@ from sqlalchemy.exc import SQLAlchemyError
 from app.backend.database import get_db  # Importar la base de datos desde el archivo de sesión
 
 # Importacion de esquemas de validacion y modelos para añadir registros a la BD 
-from app.schemas.usuario_schema import Usuario
 from app.models.usuario_model import Usuario as UsuarioModel
-
+from app.models.profesor_model import Profesor
+from app.models.acudiente_model import Acudiente
+from app.schemas.usuario_schema import Usuario  
 
 router = APIRouter() 
 
@@ -70,3 +71,27 @@ def getUsers(db: Session = Depends(get_db)):
         return usuarios
     except SQLAlchemyError as e:
         raise HTTPException(status_code=500, detail=f"Error al obtener usuarios: {str(e)}")
+
+# Obtener usuario por ID
+@router.get("/usuarios/{id_usuario}")
+def get_usuario(id_usuario: int, db: Session = Depends(get_db)):
+    usuario = db.query(UsuarioModel).filter(UsuarioModel.id_usuario == id_usuario).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    return usuario
+
+# Obtener profesor por ID
+@router.get("/profesores/{id_profesor}")
+def get_profesor(id_profesor: int, db: Session = Depends(get_db)):
+    profesor = db.query(Profesor).filter(Profesor.id_profesor == id_profesor).first()
+    if not profesor:
+        raise HTTPException(status_code=404, detail="Profesor no encontrado")
+    return profesor
+
+# Obtener acudiente por ID
+@router.get("/acudientes/{id_acudiente}")
+def get_acudiente(id_acudiente: int, db: Session = Depends(get_db)):
+    acudiente = db.query(Acudiente).filter(Acudiente.id_acudiente == id_acudiente).first()
+    if not acudiente:
+        raise HTTPException(status_code=404, detail="Acudiente no encontrado")
+    return acudiente
