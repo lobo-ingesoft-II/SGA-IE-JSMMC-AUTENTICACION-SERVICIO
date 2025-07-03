@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 # from app.backend.database import try_BD
-from app.routers import autentication_routes  # Importar las rutas del archivo de autenticacion 
-from app.routers import auth_routes, admin_routes, estudiante_routes, profesor_routes, acudiente_routes
+from app.routers import usuario_routes  # Importar las rutas del archivo de autenticacion 
+from app.routers import auth_routes, admin_routes, profesor_routes, acudiente_routes
 
 from app.backend.session import Base, engine
 
@@ -15,10 +15,9 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI()
 
 # Importar las rutas
-app.include_router(autentication_routes.router)
+app.include_router(usuario_routes.router)
 app.include_router(auth_routes.router)
 app.include_router(admin_routes.router)
-app.include_router(estudiante_routes.router)
 app.include_router(profesor_routes.router)
 app.include_router(acudiente_routes.router)
 
