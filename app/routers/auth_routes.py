@@ -22,27 +22,17 @@ def login(usuario: UsuarioLogin, db: Session = Depends(get_db)):
     if not verify_password(usuario.contrasena, db_usuario.contrasena_hash):
         raise HTTPException(status_code=400, detail="Contraseña incorrecta")
 
-    # 3. Generar token JWT con el rol
-    # 3. Generar token JWT con el rol
-    token = create_access_token(
-    data={
-        "sub": str(db_usuario.id_usuario),  # ✅ ahora es el ID como string
-        "name": db_usuario.nombres,         # opcional, útil para mostrar en el panel
-        "role": db_usuario.rol
-        }
-    )
-
-    # 4. Obtener ID específico si es profesor
+    # Consulta manual para ver si ese usuario es profesor
     id_profesor = None
-    print(db_usuario.rol)
-    print("HOLAAAA")
-    
-    db_profe = db.query(Profesor).filter(Profesor.id_profesor == db_usuario.id_usuario).first()
-    print(db_profe)
+    if db_usuario.rol == "profesor":
+        db_profesor = db.query(Profesor).filter(Profesor.id_usuario == db_usuario.id_usuario).first()
+        if db_profesor:
+            id_profesor = db_profesor.id_profesor
 
-    if db_usuario.rol == "profesor" and db_usuario.profesor:
-        # print("Es profesor")
-        id_profesor = db_usuario.profesor.id_profesor
+    token = create_access_token({
+        "sub": str(db_usuario.id_usuario),
+        "rol": db_usuario.rol
+    })
 
     return {
         "access_token": token,

@@ -4,8 +4,8 @@ from app.services.auth_service import role_required
 #Vista opcional si se define alguna vista de estudiantes
 router = APIRouter(
     prefix="/estudiante",
-    tags=["estudiante"],
-    dependencies=[Depends(role_required("estudiante"))]
+    tags=["estudiante"]
+    # dependencies=[Depends(role_required("estudiante"))]
 )
 
 @router.get("/")

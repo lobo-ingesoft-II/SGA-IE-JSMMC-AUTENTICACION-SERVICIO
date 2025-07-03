@@ -22,9 +22,15 @@ from app.backend.database import get_db  # Importar la base de datos desde el ar
 # Importacion de esquemas de validacion y modelos para añadir registros a la BD 
 from app.schemas.usuario_schema import Usuario
 from app.models.usuario_model import Usuario as UsuarioModel
+from app.models.profesor_model import Profesor
+from app.models.acudiente_model import Acudiente
 
 
-router = APIRouter() 
+router = APIRouter(
+    prefix="/usuario",
+    tags=["usuario"]
+    # dependencies=[Depends(role_required("profesor"))] # Se le quita la utenticación de Rol 
+)
 
 
 @router.get("/")
@@ -70,3 +76,6 @@ def getUsers(db: Session = Depends(get_db)):
         return usuarios
     except SQLAlchemyError as e:
         raise HTTPException(status_code=500, detail=f"Error al obtener usuarios: {str(e)}")
+
+
+
