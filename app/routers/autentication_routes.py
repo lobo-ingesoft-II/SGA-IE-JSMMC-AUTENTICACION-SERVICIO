@@ -73,20 +73,35 @@ def getUsers(db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=f"Error al obtener usuarios: {str(e)}")
 
 # Obtener usuario por ID
-@router.get("/usuarios/{id_usuario}")
-def get_usuario(id_usuario: int, db: Session = Depends(get_db)):
-    usuario = db.query(UsuarioModel).filter(UsuarioModel.id_usuario == id_usuario).first()
-    if not usuario:
-        raise HTTPException(status_code=404, detail="Usuario no encontrado")
-    return usuario
-
-# Obtener profesor por ID
 @router.get("/profesores/{id_profesor}")
 def get_profesor(id_profesor: int, db: Session = Depends(get_db)):
+    # Buscar el profesor por ID
     profesor = db.query(Profesor).filter(Profesor.id_profesor == id_profesor).first()
     if not profesor:
         raise HTTPException(status_code=404, detail="Profesor no encontrado")
-    return profesor
+    
+    # Buscar el usuario asociado manualmente
+    usuario = db.query(UsuarioModel).filter(UsuarioModel.id_usuario == profesor.id_usuario).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuario asociado no encontrado")
+
+    # Combinar los datos de profesor y usuario en un solo dict
+    return {
+        "id_profesor": profesor.id_profesor,
+        "id_usuario": profesor.id_usuario,
+        "especialidad": profesor.especialidad,
+        "es_director": profesor.es_director,
+        "nombres": usuario.nombres,
+        "apellidos": usuario.apellidos,
+        "tipo_documento": usuario.tipo_documento,
+        "documento_identidad": usuario.documento_identidad,
+        "telefono": usuario.telefono,
+        "email": usuario.email,
+        "rol": usuario.rol,
+        "estado": usuario.estado,
+        "fecha_creacion": usuario.fecha_creacion,
+        "fecha_modificacion": usuario.fecha_modificacion
+    }
 
 # Obtener acudiente por ID
 @router.get("/acudientes/{id_acudiente}")
