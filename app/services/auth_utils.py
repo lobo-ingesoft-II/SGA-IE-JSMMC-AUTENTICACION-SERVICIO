@@ -15,7 +15,12 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto") # Configura bc
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")  #Define la URL donde FastAPI espera recibir credenciales (/auth/login).
 
 def verify_password(plain_password, hashed_password):
-    return pwd_context.verify(plain_password, hashed_password)
+    try:
+        return pwd_context.verify(plain_password, hashed_password)
+    except Exception as e:
+        # Si hay un error con el hash, probablemente esté mal formado
+        print(f"Error al verificar contraseña: {e}")
+        return False
 
 def get_password_hash(password):
     return pwd_context.hash(password)
