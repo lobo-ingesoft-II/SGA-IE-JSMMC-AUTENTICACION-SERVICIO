@@ -7,9 +7,10 @@ from app.models.usuario_model import Usuario
 from app.models.profesor_model import Profesor
 from app.models.acudiente_model import Acudiente
 from app.models.administrador_model import Administrador
-from app.schemas.usuario_schema import CrearUsuario, UsuarioUpdate
+from app.schemas.usuario_schema import CrearUsuario, UsuarioUpdate, ProfesorResponse, AcudienteResponse, AdministradorResponse
 from app.services.auth_utils import get_password_hash
 from datetime import datetime, timezone, timedelta
+from typing import List
 router = APIRouter(
     prefix="/admin",
     tags=["admin"]
@@ -162,3 +163,71 @@ async def eliminar_usuario(id_usuario: int, db: Session = Depends(get_db)):
 
     db.commit()
     return {"mensaje": "Usuario eliminado correctamente"}
+
+@router.get("/profesores", response_model=List[ProfesorResponse])
+def obtener_profesores(db: Session = Depends(get_db)):
+    profesores = db.query(
+        Usuario.id_usuario,
+        Usuario.nombres,
+        Usuario.apellidos,
+        Usuario.email,
+        Profesor.id_profesor
+    ).join(
+        Profesor, Usuario.id_usuario == Profesor.id_usuario
+    ).filter(
+        Usuario.rol == "profesor"
+    ).all()
+
+    return [{
+        "id_usuario": p.id_usuario,
+        "id_profesor": p.id_profesor,
+        "nombres": p.nombres,
+        "apellidos": p.apellidos,
+        "email": p.email
+    } for p in profesores]
+
+@router.get("/acudientes", response_model=List[AcudienteResponse])
+def obtener_acudientes(db: Session = Depends(get_db)):
+    acudientes = db.query(
+        Usuario.id_usuario,
+        Usuario.nombres,
+        Usuario.apellidos,
+        Usuario.email,
+        Acudiente.id_acudiente,
+    ).join(
+        Acudiente, Usuario.id_usuario == Acudiente.id_usuario
+    ).filter(
+        Usuario.rol == "acudiente"
+    ).all()
+
+    return [AcudienteResponse(
+        id_usuario=a.id_usuario,
+        id_acudiente=a.id_acudiente,
+        nombres=a.nombres,
+        apellidos=a.apellidos,
+        email=a.email,
+    ) for a in acudientes]
+
+@router.get("/administradores", response_model=List[AdministradorResponse])
+def obtener_administradores(db: Session = Depends(get_db)):
+    administradores = db.query(
+        Usuario.id_usuario,
+        Usuario.nombres,
+        Usuario.apellidos,
+        Usuario.email,
+        Usuario.fecha_creacion,
+        Administrador.id_administrador
+    ).join(
+        Administrador, Usuario.id_usuario == Administrador.id_usuario
+    ).filter(
+        Usuario.rol == "administrador"
+    ).all()
+
+    return [AdministradorResponse(
+        id_usuario=a.id_usuario,
+        id_administrador=a.id_administrador,
+        nombres=a.nombres,
+        apellidos=a.apellidos,
+        email=a.email,
+        fecha_creacion=a.fecha_creacion.isoformat() if a.fecha_creacion else None
+    ) for a in administradores]
