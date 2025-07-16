@@ -1,6 +1,11 @@
 # 📄 CHANGELOG
 
 Todas las modificaciones importantes realizadas en el proyecto se documentan en este archivo.
+---
+## [1.0.9] - 2025-07-15
+### ✅ Añadido
+
+- Se agregaron nuevos endpoints para obtener todos los usuarios por rol.
 
 ---
 ## [1.0.8] - 2025-07-13
