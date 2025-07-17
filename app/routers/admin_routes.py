@@ -171,20 +171,26 @@ def obtener_profesores(db: Session = Depends(get_db)):
         Usuario.nombres,
         Usuario.apellidos,
         Usuario.email,
-        Profesor.id_profesor
+        Usuario.tipo_documento,
+        Usuario.documento_identidad,
+        Usuario.telefono,
+        Profesor.id_profesor,
     ).join(
         Profesor, Usuario.id_usuario == Profesor.id_usuario
     ).filter(
         Usuario.rol == "profesor"
     ).all()
 
-    return [{
-        "id_usuario": p.id_usuario,
-        "id_profesor": p.id_profesor,
-        "nombres": p.nombres,
-        "apellidos": p.apellidos,
-        "email": p.email
-    } for p in profesores]
+    return [ProfesorResponse(
+        id_usuario=p.id_usuario,
+        id_profesor=p.id_profesor,
+        nombres=p.nombres,
+        apellidos=p.apellidos,
+        tipoDocumento=p.tipo_documento,
+        documentoIdentidad=p.documento_identidad,
+        telefono=p.telefono,
+        email=p.email,
+    ) for p in profesores]
 
 @router.get("/acudientes", response_model=List[AcudienteResponse])
 def obtener_acudientes(db: Session = Depends(get_db)):
@@ -193,6 +199,9 @@ def obtener_acudientes(db: Session = Depends(get_db)):
         Usuario.nombres,
         Usuario.apellidos,
         Usuario.email,
+        Usuario.tipo_documento,
+        Usuario.documento_identidad,
+        Usuario.telefono,
         Acudiente.id_acudiente,
     ).join(
         Acudiente, Usuario.id_usuario == Acudiente.id_usuario
@@ -205,6 +214,9 @@ def obtener_acudientes(db: Session = Depends(get_db)):
         id_acudiente=a.id_acudiente,
         nombres=a.nombres,
         apellidos=a.apellidos,
+        tipoDocumento=a.tipo_documento,
+        documentoIdentidad=a.documento_identidad,
+        telefono=a.telefono,
         email=a.email,
     ) for a in acudientes]
 
@@ -215,7 +227,9 @@ def obtener_administradores(db: Session = Depends(get_db)):
         Usuario.nombres,
         Usuario.apellidos,
         Usuario.email,
-        Usuario.fecha_creacion,
+        Usuario.tipo_documento,
+        Usuario.documento_identidad,
+        Usuario.telefono,
         Administrador.id_administrador
     ).join(
         Administrador, Usuario.id_usuario == Administrador.id_usuario
@@ -228,6 +242,8 @@ def obtener_administradores(db: Session = Depends(get_db)):
         id_administrador=a.id_administrador,
         nombres=a.nombres,
         apellidos=a.apellidos,
+        tipoDocumento=a.tipo_documento,
+        documentoIdentidad=a.documento_identidad,
+        telefono=a.telefono,
         email=a.email,
-        fecha_creacion=a.fecha_creacion.isoformat() if a.fecha_creacion else None
     ) for a in administradores]
