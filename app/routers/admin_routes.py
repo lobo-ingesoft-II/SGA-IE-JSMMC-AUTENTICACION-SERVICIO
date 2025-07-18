@@ -164,6 +164,7 @@ async def eliminar_usuario(id_usuario: int, db: Session = Depends(get_db)):
     db.commit()
     return {"mensaje": "Usuario eliminado correctamente"}
 
+#Obtener los usuarios por rol
 @router.get("/profesores", response_model=List[ProfesorResponse])
 def obtener_profesores(db: Session = Depends(get_db)):
     profesores = db.query(
@@ -174,6 +175,7 @@ def obtener_profesores(db: Session = Depends(get_db)):
         Usuario.tipo_documento,
         Usuario.documento_identidad,
         Usuario.telefono,
+        Usuario.estado,
         Profesor.id_profesor,
     ).join(
         Profesor, Usuario.id_usuario == Profesor.id_usuario
@@ -189,6 +191,7 @@ def obtener_profesores(db: Session = Depends(get_db)):
         tipoDocumento=p.tipo_documento,
         documentoIdentidad=p.documento_identidad,
         telefono=p.telefono,
+        estado=p.estado,
         email=p.email,
     ) for p in profesores]
 
@@ -202,6 +205,7 @@ def obtener_acudientes(db: Session = Depends(get_db)):
         Usuario.tipo_documento,
         Usuario.documento_identidad,
         Usuario.telefono,
+        Usuario.estado,
         Acudiente.id_acudiente,
     ).join(
         Acudiente, Usuario.id_usuario == Acudiente.id_usuario
@@ -217,6 +221,7 @@ def obtener_acudientes(db: Session = Depends(get_db)):
         tipoDocumento=a.tipo_documento,
         documentoIdentidad=a.documento_identidad,
         telefono=a.telefono,
+        estado=a.estado,
         email=a.email,
     ) for a in acudientes]
 
@@ -230,6 +235,7 @@ def obtener_administradores(db: Session = Depends(get_db)):
         Usuario.tipo_documento,
         Usuario.documento_identidad,
         Usuario.telefono,
+        Usuario.estado,
         Administrador.id_administrador
     ).join(
         Administrador, Usuario.id_usuario == Administrador.id_usuario
@@ -245,5 +251,6 @@ def obtener_administradores(db: Session = Depends(get_db)):
         tipoDocumento=a.tipo_documento,
         documentoIdentidad=a.documento_identidad,
         telefono=a.telefono,
+        estado=a.estado,
         email=a.email,
     ) for a in administradores]

@@ -60,6 +60,7 @@ class ProfesorResponse(BaseModel):
     tipoDocumento: str
     documentoIdentidad: str
     telefono: str
+    estado: str
 
     class Config:
         orm_mode = True
@@ -73,6 +74,7 @@ class AcudienteResponse(BaseModel):
     tipoDocumento: str
     documentoIdentidad: str
     telefono: str
+    estado: str
 
     class Config:
         orm_mode = True
@@ -86,6 +88,7 @@ class AdministradorResponse(BaseModel):
     tipoDocumento: str
     documentoIdentidad: str
     telefono: str
+    estado: str
 
     class Config:
         orm_mode = True
