@@ -23,7 +23,7 @@ print(config)
 
 # Crear engine
 # engine = create_engine(settings.sqlalchemy_database_uri) # Gestiona las conexion en la app
-DATABASE_URL="mysql+pymysql://root:12345@127.0.0.1:3306/auth_db"
+DATABASE_URL="mysql+pymysql://root:1234@127.0.0.1:3306/auth_db"
 
 #DATABASE_URL="mysql+pymysql://root:@localhost:3306/auth_db"
 engine = create_engine(DATABASE_URL) # Gestiona las conexion en la app
