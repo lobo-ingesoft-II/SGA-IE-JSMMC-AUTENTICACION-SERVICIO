@@ -61,6 +61,8 @@ La API utiliza JWT para autenticación con OAuth2:
 | **GET**  | `/profesor/profesores/{id_profesor}`     | Obtener datos completos del profesor y usuario       | ✅ (Profesor)      | `id_profesor`                  | Datos combinados del profesor y usuario     |
 | **GET**  | `/acudiente/`                            | Vista de acudiente                                   | ✅ (Acudiente)     | Ninguno                        | Mensaje de bienvenida                       |
 | **GET**  | `/acudiente/{id_acudiente}`              | Obtener datos del acudiente por ID                   | ✅ (Acudiente)     | `id_acudiente`                 | Objeto del acudiente                        |
+| **POST** | `/acudiente/register`                    | Registrar un acudiente a partir de un usuario existente | ✅ (Acudiente/Admin) | `id_usuario`, `parentesco`, `celular`, `direccion` | ID del acudiente creado |
+| **GET**  | `/acudiente/get_by_document/{document_number}` | Buscar acudiente por número de documento        | ✅ (Acudiente/Admin) | `document_number` (en la ruta) | Objeto del acudiente |
 
 ---
 
@@ -134,6 +136,38 @@ Successful Response
   "celular": "3001234567"
 }
 ```
+### ✅ POST `/acudiente/register`
+
+**Request Body:**
+
+```json
+{
+  "id_usuario": 10,
+  "parentesco": "Madre",
+  "celular": "3101234567",
+  "direccion": "Carrera 45 #32-11"
+}
+```
+
+### 📋 Respuesta esperada:
+```json
+{
+  "mensaje": "Acudiente registrado correctamente.",
+  "id_acudiente": 14
+}
+```
+### ✅ GET /acudiente/get_by_document/123456789
+```json
+{
+  "id_acudiente": 1,
+  "id_usuario": 10,
+  "parentesco": "Madre",
+  "celular": "3101234567",
+  "direccion": "Carrera 45 #32-11"
+}
+```
+
+
 
 ## 📚 Endpoints Administrativo
 
