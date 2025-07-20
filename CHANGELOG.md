@@ -2,6 +2,13 @@
 
 Todas las modificaciones importantes realizadas en el proyecto se documentan en este archivo.
 ---
+## [1.0.12] - 2025-07-20
+### ✅ Añadido
+
+- Se implementó el endpoint `POST /acudiente/register` para registrar un acudiente a partir de un usuario existente con rol "acudiente".
+- Se añadió el endpoint `GET /acudiente/get_by_document/{document_number}` para consultar los datos de un acudiente usando el número de documento.
+
+---
 ## [1.0.11] - 2025-07-17
 ### ✅ Añadido
 
@@ -63,3 +70,4 @@ Todas las modificaciones importantes realizadas en el proyecto se documentan en 
 ## [1.0.0] - 2025-06-07
 ### 🚀 Prototipo Inicial
 - Primer prototipo funcional del sistema con autenticación básica y rutas principales.
+
