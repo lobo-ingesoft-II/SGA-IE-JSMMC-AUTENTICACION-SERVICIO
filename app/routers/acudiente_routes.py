@@ -8,6 +8,7 @@ from app.services.auth_service import role_required
 
 from app.models.usuario_model import Usuario
 from app.schemas.acudiente_schema import AcudienteBase
+from app.schemas.acudiente_schema import AcudienteOut
 
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
@@ -69,3 +70,20 @@ def registrar_acudiente(data: AcudienteBase, db: Session = Depends(get_db)):
         "mensaje": "Acudiente registrado correctamente.",
         "id_acudiente": nuevo_acudiente.id_acudiente
     }
+
+@router.get("/get_by_document/{document_number}", response_model=AcudienteOut)
+def get_acudiente_por_documento(document_number: str, db: Session = Depends(get_db)):
+    # Buscar al usuario con ese documento
+    usuario = db.query(Usuario).filter(Usuario.documento_identidad == document_number).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado.")
+    
+    # Buscar al acudiente asociado
+    acudiente = db.query(Acudiente).filter(Acudiente.id_usuario == usuario.id_usuario).first()
+    if not acudiente:
+        raise HTTPException(status_code=404, detail="Acudiente no encontrado.")
+
+    return acudiente
+
+    
+    
