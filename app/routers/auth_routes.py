@@ -19,8 +19,19 @@ def login(usuario: UsuarioLogin, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Email no registrado")
 
     # 2. Verificar contraseña
-    if not verify_password(usuario.contrasena, db_usuario.contrasena_hash):
-        raise HTTPException(status_code=400, detail="Contraseña incorrecta")
+    try:
+        if not verify_password(usuario.contrasena, db_usuario.contrasena_hash):
+            raise HTTPException(status_code=400, detail="Contraseña incorrecta")
+    except Exception as e:
+        # Si el hash no es válido, verificar si la contraseña está en texto plano
+        if usuario.contrasena == db_usuario.contrasena_hash:
+            # La contraseña está en texto plano, necesita ser hasheada
+            from app.services.auth_utils import get_password_hash
+            new_hash = get_password_hash(usuario.contrasena)
+            db_usuario.contrasena_hash = new_hash
+            db.commit()
+        else:
+            raise HTTPException(status_code=400, detail="Error en la verificación de contraseña")
 
     # Consulta manual para ver si ese usuario es profesor
     id_profesor = None
